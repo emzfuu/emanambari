@@ -1,0 +1,9 @@
+[web]
+127.0.0.1 ansible_ssh_private_key_file="/root/.ssh/key.pem" 
+#127.0.0.1 ansible_connection=smart ansible_become=yes ansible_user=root become_method=sudo ansible_ssh_pass="srph135"$
+
+#specific user (ansible_ssh_user=nameofuser)
+#specific user (ansible_ssh_user=nameofuser)
+
+[start]
+192.168.1.10 ansible_ssh_private_key_file="/root/.ssh/key.pem"

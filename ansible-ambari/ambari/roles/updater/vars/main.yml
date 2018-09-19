@@ -1,0 +1,20 @@
+---
+packages:
+  - software-properties-common
+  - ambari-agent
+  - ambari-server
+  - libmysql-java
+  - ntp
+  - ntpdate 
+  - oracle-java8-installer
+  - oracle-java8-set-default
+  - mariadb-server
+  - phpmyadmin
+  - php7.0
+  - libapache2-mod-php7.0
+  - php7.0-mysql
+  - php7.0-xml
+  - php7.0-gd
+  - php7.0-mysql
+  - mariadb-server
+  - mariadb-client

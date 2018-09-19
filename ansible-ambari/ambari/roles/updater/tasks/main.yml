@@ -1,0 +1,76 @@
+---
+- name: Update all repositories
+  apt:
+    update_cache: yes
+
+- name: Upgrade all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: part updataing repository
+  command: apt-get -f install -y
+
+- name: Disabling Transparent Huge Page.
+  command: echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+- name: edit /etc/default/grub
+  command: sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"/GRUB_CMDLINE_LINUX_DEFAULT="transparent_hugepage=never"/g' /etc/default/grub
+
+- name: 1of9 Disabling iptables in Ubuntu 16.04
+  command: ufw disable
+
+- name: 2of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -X
+
+- name: 3of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -t nat -F
+
+- name: 4of9 Disabling iptables in Ubuntu 16.04
+  command: sudo iptables -t nat -X
+
+- name: 5of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -t mangle -F
+
+- name: 6of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -t mangle -X
+
+- name: 7of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -P INPUT ACCEPT
+
+- name: 8of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -P FORWARD ACCEPT
+
+- name: 9of9 Disabling iptables in Ubuntu 16.04
+  command: iptables -P OUTPUT ACCEPT
+
+- name: adding various repositories to Linux 1of6
+  command: apt-add-repository ppa:webupd8team/java
+
+- name: adding various repositories to Linux 2of6
+  command: apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+
+- name: adding various repositories to Linux 3of6
+  command: add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.utexas.edu/mariadb/repo/10.2/ubuntu xenial main'
+
+- name: adding various repositories to Linux 4of6
+  command: wget -O /etc/apt/sources.list.d/ambari.list http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.5.1.0/ambari.list
+
+- name: adding various repositories to Linux 5of6
+  command: apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
+  ignore_errors: True
+
+- name: adding various repositories to Linux 6of6
+  command: apt-get update -y
+
+- name: Install latest verssion of Ambari
+  apt:
+    name: "{{ item }}"
+    state: latest
+    force_apt_get: yes
+    allow_unauthenticated: yes
+    force: yes
+  with_items:
+    - "{{ packages }}"
+
+#- name: install ambari
+#  command: sudo apt-get install -y software-properties-common ambari-agent ambari-server libmysql-java ntp ntpdate oracle-java8-installer oracle-java8-set-default mariadb-server phpmyadmin php7.0 libapache2-mod-php7.0 php7.0-mysql php7.0-xml php7.0-gd php7.0-mysql mariadb-server mariadb-client
